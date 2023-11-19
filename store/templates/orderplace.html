@@ -1,0 +1,81 @@
+{% extends "bases.html" %}
+
+
+{% block content %}
+
+        <div class="page-wrapper p-5">
+
+            <div class="page-breadcrumb ">
+                <div class="row align-items-center p-3">
+                    <div class="col-5 ">
+                        <h4 class="page-title">Dashboard</h4>
+                        <div class="d-flex align-items-center">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="{% url "Store" %}">Home</a></li>
+                                    <li class="breadcrumb-item active" aria-current="page">Order Detail</li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container-fluid p-3">
+
+                <div class="row">
+
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+
+                                <div class="d-md-flex">
+                                    <div>
+                                        <h4 class="card-title">Update Order</h4>
+                                        
+                                    </div>
+                                    
+                                </div>
+
+                            </div>
+                            {% if messages %}
+                            {% for message  in messages %}
+                                <p {% if message.tags %} class='alert alert-{{ message.tags }} mb-5 {% endif %}'> {{ message }}</p>
+                                {% endfor %}
+                            {% endif %}
+                            <form method='POST' class="form-horizontal form-material mx-2">
+                                {% csrf_token %}  
+                                <div class="form-group">
+                                    <label class="col-md-12">Name</label>
+                                    <div class="col-md-12">
+                                        <input type="text" value="{{order.user.username | capfirst}}" placeholder="Enter Name"
+                                            class="form-control form-control-line" disabled>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-12">Product</label>
+                                    <div class="col-md-12">
+                                        <input type="text" value="{{order.medicine.title}}" placeholder="Enter Locality"
+                                            class="form-control form-control-line" disabled>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="exampleFormControlSelect1">Order Placement</label>
+                                    <select class="form-control" name="place" id="exampleFormControlSelect1" onchange="this.form.submit()">
+                                        <option>Select Option</option>
+                                        <option value="Accepted" {% if order.place == 'Accepted' %}selected{% endif %}>Accepted</option>
+                                        <option value="Packed" {% if order.place == 'Packed' %}selected{% endif %}>Packed</option>
+                                        <option value="On the way" {% if order.place == 'On the way' %}selected{% endif %}>On the way</option>
+                                        <option value="Delivered" {% if order.place == 'Delivered' %}selected{% endif %}>Delivered</option>
+                                        <option value="Cancel" {% if order.place == 'Cancel' %}selected{% endif %}>Cancel</option>
+                                    </select>
+                                  </div>  
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+
+            {% endblock content %}

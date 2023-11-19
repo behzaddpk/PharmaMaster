@@ -1,0 +1,128 @@
+{% extends "bases.html" %}
+
+
+{% block content %}
+<div class="page-wrapper p-5">
+	<!-- ============================================================== -->
+	<!-- Bread crumb and right sidebar toggle -->
+	<!-- ============================================================== -->
+	<div class="page-breadcrumb">
+		<div class="row align-items-center">
+			<div class="col-5">
+				<h4 class="page-title">Dashboard</h4>
+				<div class="d-flex align-items-center">
+					<nav aria-label="breadcrumb">
+						<ol class="breadcrumb">
+							<li class="breadcrumb-item"><a href="{% url "Store" %}">Home</a></li>
+							<li class="breadcrumb-item active" aria-current="page">Add Product</li>
+						</ol>
+					</nav>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="container-fluid">
+		<!-- ============================================================== -->
+		<!-- Sales chart -->
+		<!-- ============================================================== -->
+		
+		<!-- Table -->
+		<!-- ============================================================== -->
+		<div class="row">
+			<!-- column -->
+			<div class="col-12">
+				<div class="card">
+					<div class="card-body">
+						<!-- title -->
+						<div class="d-md-flex">
+							<div>
+								<h4 class="card-title">All Product</h4>
+								{% comment %} <h5 class="card-subtitle">Overview of Top Selling Items</h5> {% endcomment %}
+							</div>
+							
+						</div>
+						<!-- title -->
+					</div>
+					{% if messages %}
+					{% for message  in messages %}
+						<p {% if message.tags %} class='alert alert-{{ message.tags }} mb-5 {% endif %}'> {{ message }}</p>
+						{% endfor %}
+					{% endif %}
+					<form method='POST' action="{% url "upload_medicine" %}" enctype="multipart/form-data"  class="form-horizontal form-material mx-2">
+						{% csrf_token %}
+						
+                        <div class="form-group">
+                            <label class="col-md-6">Medicine Name</label>
+                            <div class="col-sm-6">
+                                <input type="text" name="name" 
+                                    class="form-control form-control-line" >
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-6">Medicine Title</label>
+                            <div class="col-sm-6">
+                                <input type="text" name="title" 
+                                    class="form-control form-control-line" >
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-12">Product Detail</label>
+                            <div class="col-sm-12">
+                                <input type="textarea" row=4 column=4 name="detail" 
+                                    class="form-control form-control-line" >
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="col-md-12">Category</label>
+                            <select class="form-control col-sm-6" name="type">
+                                <option>Select Option</option>
+                                <option value="Syrup" >Syrup</option>
+                                <option value="Tablet" >Tablet</option>
+                                <option value="Supliment" >Supliment</option>  
+                                <option value="Vitamin" >Vitamin</option>  
+
+                            </select>
+                          </div>
+                          <div class="form-group">
+                            <label class="col-md-6">Medicine Image</label>
+                            <div class="col-sm-6">
+                                <input type="file" name="product_img" 
+                                    class="form-control form-control-line" >
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-6">Medicine Actual Price</label>
+                            <div class="col-md-6">
+                                <input type="number" name="actualamount" 
+                                    class="form-control form-control-line" >
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-6">Medicine Discounted Price</label>
+                            <div class="col-md-6">
+                                <input type="number" name="discountamount" 
+                                    class="form-control form-control-line" >
+                            </div>
+                        </div>
+						<div class="form-group">
+							<div class="col-sm-6 p-2">
+								<button type='submit' class="btn btn-success text-white">Upload Medicine</button>
+							</div>
+						</div>
+					</form>
+
+
+
+				</div>
+			</div>
+		</div>
+		<!-- ============================================================== -->
+		<!-- Table -->
+		<!-- ============================================================== -->
+
+
+		
+	</div>
+</div>
+{% endblock content %}

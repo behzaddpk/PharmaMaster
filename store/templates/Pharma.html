@@ -1,0 +1,83 @@
+{% extends "bases.html" %}
+
+
+{% block content %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<div class="row p-5">
+    <div class="col-sm-4">
+        <h3>Sales</h3>
+        <canvas id="myPieChart" width="400" height="400"></canvas>
+    </div>
+
+    <div class="col-sm-4">
+        <h3>Product</h3>
+        <div>
+            <canvas id="myChart1" width="400" height="400"></canvas>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Sales Chart
+    var ctxPieChart = document.getElementById("myPieChart").getContext("2d");
+    var labelsPieChart = [{% for ord in order %} "{{ ord.medicine.name }}", {% endfor %}];
+    var dataValuesPieChart = [{% for ord in order %} {{ ord.medicine.amount }}, {% endfor %}];
+    var backgroundColorPieChart = ["#FF5733", "#33FF3A", "#338CFF"];
+
+    var dataPieChart = {
+        labels: labelsPieChart,
+        datasets: [
+            {
+                data: dataValuesPieChart,
+                backgroundColor: backgroundColorPieChart,
+            },
+        ],
+    };
+
+    var optionsPieChart = {
+        responsive: true,
+        maintainAspectRatio: false,
+    };
+
+    new Chart(ctxPieChart, {
+        type: "pie",
+        data: dataPieChart,
+
+    });
+
+    // Product Chart
+    const ctxBarChart = document.getElementById('myChart1').getContext('2d');
+    var labelsBarChart = [{% for medi in medicine %} "{{ medi.name }}", {% endfor %}];
+    var dataValuesBarChart = [{% for medi in medicine %} {{ medi.amount }}, {% endfor %}];
+
+    var dataBarChart = {
+        labels: labelsBarChart,
+        datasets: [{
+            label: '# of Votes',
+            data: dataValuesBarChart,
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+            ],
+            borderWidth: 1,
+        }],
+    };
+
+    var optionsBarChart = {
+        scales: {
+            y: {
+                beginAtZero: true,
+            },
+        },
+    };
+
+    new Chart(ctxBarChart, {
+        type: 'bar',
+        data: dataBarChart,
+        options: optionsBarChart,
+    });
+</script>
+
+  
+{% endblock content %}

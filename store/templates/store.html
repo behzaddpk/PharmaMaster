@@ -1,0 +1,108 @@
+{% extends "bases.html" %}
+{% load static %}
+ {% block content %}
+ <div class="page-wrapper p-5">
+	<!-- ============================================================== -->
+	<!-- Bread crumb and right sidebar toggle -->
+	<!-- ============================================================== -->
+	<div class="page-breadcrumb">
+		<div class="row align-items-center">
+			<div class="col-5">
+				<h4 class="page-title">Dashboard</h4>
+				<div class="d-flex align-items-center">
+					<nav aria-label="breadcrumb">
+						<ol class="breadcrumb">
+							<li class="breadcrumb-item"><a href="{% url "Store" %}">Home</a></li>
+							<li class="breadcrumb-item active" aria-current="page">Product</li>
+						</ol>
+					</nav>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="container-fluid">
+		<!-- ============================================================== -->
+		<!-- Sales chart -->
+		<!-- ============================================================== -->
+		
+		<!-- Table -->
+		<!-- ============================================================== -->
+		<div class="row">
+			<!-- column -->
+			<div class="col-12">
+				<div class="card">
+					<div class="card-body">
+						<!-- title -->
+						<div class="d-md-flex">
+							<div>
+								<h4 class="card-title">All Product</h4>
+								{% comment %} <h5 class="card-subtitle">Overview of Top Selling Items</h5> {% endcomment %}
+							</div>
+							
+						</div>
+						<!-- title -->
+					</div>
+					{% if messages %}
+					{% for message  in messages %}
+						<p {% if message.tags %} class='alert alert-{{ message.tags }} mb-5 {% endif %}'> {{ message }}</p>
+						{% endfor %}
+					{% endif %}
+					
+					<table class="table table-striped">
+						<thead>
+						  <tr>
+							<th scope="col">Medicine ID</th>
+							<th scope="col">Medicine Name</th>
+							<th scope="col">Medicine Title</th>
+							<th scope="col">Medicine Detail</th>
+							<th scope="col">Medicine Category</th>
+							<th scope="col">Medicine Picture</th>
+							<th scope="col">Medicine Amount</th>
+							<th scope="col">Medicine Discounted Price</th>
+							<th scope="col">Action</th>
+							
+						  </tr>
+						</thead>
+						<tbody>
+							{% for med in medicine %}
+						  <tr>
+							<th scope="row">{{med.id}}</th>
+							<td>{{med.name}}</td>
+							<td>{{med.title}}</td>
+							<td>{{med.detail}}</td>
+							<td>{{med.type}}</td>
+							<td><img src="{{ med.picture.url }}" height=100 alt="Image" class="img-fluid p-5"></td>
+							<td>{{med.amount}}</td>
+							<td>{{med.discount_amount}}</td>
+							<td>
+								<a href="{% url 'editMedicine' med.id %}" type="button" class="btn btn-success p-1">Edit</a>
+								<a href="{% url 'delMedicine' med.id %}" type="button" class="btn btn-danger m-2">Delete</a>
+							</td>
+						  </tr>
+						  {% endfor %}
+						  
+						</tbody>
+
+						
+					  </table>
+
+					  
+				</div>
+				<div class="form-group">
+					<div class="col-sm-6 p-2">
+						<a href='{% url 'add_medicine'%}' class='btn btn-success'>Add Medicine</a>
+
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- ============================================================== -->
+		<!-- Table -->
+		<!-- ============================================================== -->
+
+
+		
+	</div>
+</div>
+ {%endblock%}
